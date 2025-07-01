@@ -1,15 +1,16 @@
 package org.rhydo.microecom.services;
 
-import org.rhydo.microecom.models.User;
+import org.rhydo.microecom.dtos.UserRequest;
+import org.rhydo.microecom.dtos.UserResponse;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> fetchAllUsers();
+    List<UserResponse> fetchAllUsers();
 
-    void addUser(User user);
+    void addUser(UserRequest userRequest);
 
-    User fetchUser(Long id);
+    UserResponse fetchUser(Long id);
 
-    boolean updateUser(Long id, User updateduser);
+    boolean updateUser(Long id, UserRequest updateduser);
 }
