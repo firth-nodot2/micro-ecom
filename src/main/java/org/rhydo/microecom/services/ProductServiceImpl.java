@@ -9,6 +9,8 @@ import org.rhydo.microecom.models.Product;
 import org.rhydo.microecom.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -39,5 +41,28 @@ public class ProductServiceImpl implements ProductService {
                     Product updatedProduct = productRepository.save(existingProduct);
                     return modelMapper.map(updatedProduct, ProductResponse.class);
                 }).orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+    }
+
+    @Override
+    public List<ProductResponse> getAllProducts() {
+        return productRepository.findByActiveTrue().stream()
+                .map(existingProduct -> modelMapper.map(existingProduct, ProductResponse.class))
+                .toList();
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+
+        product.setActive(false);
+        productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductResponse> searchProducts(String keyword) {
+        return productRepository.searchProducts(keyword).stream()
+                .map(existingProduct -> modelMapper.map(existingProduct, ProductResponse.class))
+                .toList();
     }
 }
