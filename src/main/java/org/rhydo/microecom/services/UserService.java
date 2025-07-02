@@ -12,5 +12,5 @@ public interface UserService {
 
     UserResponse fetchUser(Long id);
 
-    boolean updateUser(Long id, UserRequest updateduser);
+    UserResponse updateUser(Long id, UserRequest updateduser);
 }

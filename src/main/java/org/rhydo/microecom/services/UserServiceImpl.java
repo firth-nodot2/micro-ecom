@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.rhydo.microecom.dtos.UserRequest;
 import org.rhydo.microecom.dtos.UserResponse;
+import org.rhydo.microecom.exceptions.ResourceNotFoundException;
 import org.rhydo.microecom.models.Address;
 import org.rhydo.microecom.repositories.UserRepository;
 import org.rhydo.microecom.models.User;
@@ -33,13 +34,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse fetchUser(Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user == null) return null;
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         return modelMapper.map(user, UserResponse.class);
     }
 
     @Override
-    public boolean updateUser(Long id, UserRequest updateduserRequest) {
+    public UserResponse updateUser(Long id, UserRequest updateduserRequest) {
         User updateduser = modelMapper.map(updateduserRequest, User.class);
 
         return userRepository.findById(id)
@@ -64,9 +64,8 @@ public class UserServiceImpl implements UserService {
                         existingAddress.setZipcode(updateduserRequest.getAddress().getZipcode());
                     }
 
-                    userRepository.save(existingUser);
-                    return true;
-                })
-                .orElse(false);
+                    User user = userRepository.save(existingUser);
+                    return modelMapper.map(user, UserResponse.class);
+                }).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 }
