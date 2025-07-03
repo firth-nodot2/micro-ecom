@@ -1,7 +1,7 @@
 package org.rhydo.microecom.dtos;
 
 import lombok.Data;
-import org.rhydo.microecom.models.UserRole;
+import org.rhydo.microecom.enums.UserRole;
 
 @Data
 public class UserResponse {

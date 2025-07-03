@@ -88,4 +88,13 @@ public class CartServiceImpl implements CartService {
                 .map(cartItem -> modelMapper.map(cartItem, CartItemResponse.class))
                 .toList();
     }
+
+    @Override
+    public void clearCart(Long userId) {
+        // Look for user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        cartItemRepository.deleteByUserId(user.getId());
+    }
 }

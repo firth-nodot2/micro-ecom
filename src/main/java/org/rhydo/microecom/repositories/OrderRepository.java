@@ -1,0 +1,7 @@
+package org.rhydo.microecom.repositories;
+
+import org.rhydo.microecom.models.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
+}

@@ -1,4 +1,4 @@
-package org.rhydo.microecom.models;
+package org.rhydo.microecom.enums;
 
 public enum UserRole {
     CUSTOMER, ADMIN
